@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcano Pessoal - Vini Astros</title>
+    <style>
+        :root {
+            /* Cores extraídas da imagem e adaptadas para Dark Mode */
+            --bg-color: #131314; /* Preto/Cinza escuro do fundo da imagem */
+            --card-bg: #1e1e20; /* Fundo do container ligeiramente mais claro */
+            --primary-blue: #2b52c3; /* Azul do botão da imagem */
+            --primary-blue-hover: #22429e;
+            --text-main: #e8eaed; /* Texto claro para leitura */
+            --text-muted: #9aa0a6; /* Texto secundário */
+            --border-color: #3c4043; /* Bordas no modo escuro */
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 25px 15px;
+            box-sizing: border-box;
+            background-image: radial-gradient(#3c4043 1px, transparent 1px);
+            background-size: 15px 15px;
+        }
+        
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rosemary-decor {
+            position: absolute;
+            opacity: 0.1;
+            width: 85px;
+            pointer-events: none;
+        }
+        .rosemary-left { top: -15px; left: -15px; transform: rotate(45deg); }
+        .rosemary-right { bottom: -15px; right: -15px; transform: rotate(-135deg); }
+
+        h1 {
+            color: var(--text-main);
+            margin-top: 0;
+            margin-bottom: 4px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 1.2rem;
+            text-align: left;
+        }
+
+        label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .date-slots {
+            display: flex;
+            gap: 10px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            background-color: #282a2c; /* Inputs escuros */
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        /* Corrigido o ícone SVG do select para ficar visível no fundo escuro (fill mudou para #9aa0a6) */
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239aa0a6%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px top 50%;
+            background-size: 10px auto;
+        }
+
+        .date-slots select:nth-child(1),
+        .date-slots select:nth-child(2) { width: 30%; }
+        .date-slots select:nth-child(3) { width: 40%; }
+
+        select:focus, input:focus {
+            background-color: #303236;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(43, 82, 195, 0.2);
+        }
+
+        .names-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin: 0.8rem 0 1.5rem 0;
+            min-height: 40px;
+        }
+
+        .name-block {
+            background-color: #282a2c;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .name-block .word {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: capitalize;
+        }
+
+        .name-block .number {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #8bb2e5; /* Azul mais claro para destacar no fundo escuro */
+        }
+
+        .btn-calc {
+            background-color: var(--primary-blue);
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 10px rgba(43, 82, 195, 0.3);
+            margin-top: 10px;
+        }
+
+        .btn-calc:hover {
+            background-color: var(--primary-blue-hover);
+            transform: translateY(-2px);
+        }
+
+        .results-area {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 2.5rem;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-section {
+            background-color: #282a2c;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px 15px;
+            position: relative;
+        }
+
+        .section-title {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-blue);
+            color: #ffffff;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cards-display {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+
+        .tarot-img {
+            width: 95px;
+            border-radius: 6px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .tarot-img:hover {
+            transform: translateY(-4px);
+            z-index: 10 !important;
+        }
+
+        .tarot-img.secondary {
+            margin-left: -35px;
+            z-index: 1;
+            transform: rotate(3deg) translateY(4px);
+        }
+        
+        .tarot-img.primary {
+            z-index: 2;
+        }
+
+        .secondary-note {
+            background-color: rgba(43, 82, 195, 0.15);
+            border-left: 3px solid var(--primary-blue);
+            padding: 12px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            color: #d1d5db; /* Texto adaptado pro fundo escuro */
+        }
+
+        .secondary-note strong {
+            color: #8bb2e5;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+        }
+
+        .influence-text {
+            text-align: left;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #d1d5db;
+        }
+
+        .influence-text h4 {
+            margin: 0 0 12px 0;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .influence-item {
+            margin-bottom: 10px;
+        }
+
+        .influence-item strong {
+            color: #8bb2e5;
+            background-color: rgba(139, 178, 229, 0.15);
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-bottom: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Arcano Pessoal <br>
+by @VINITAROCCHI</h1>
+        <div class="subtitle">Influências da Data de Nascimento e do Nome de Expressão.</div>
+        
+        <div class="form-section">
+            <label>Data de Nascimento (Arcano Principal)</label>
+            <div class="date-slots">
+                <select id="dayInput"></select>
+                <select id="monthInput"></select>
+                <select id="yearInput"></select>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <label for="nameInput">Nome Completo (Arcano de Expressão)</label>
+            <input type="text" id="nameInput" placeholder="Ex: Vinicius Silva" autocomplete="off" oninput="calculateLive()">
+        </div>
+        
+        <!-- Bloco para feedback ao vivo do nome digitado -->
+        <div class="names-row" id="namesRow"></div>
+        
+        <button class="btn-calc" onclick="calculateAll()">Revelar Arcano Pessoal</button>
+        
+        <div class="results-area" id="resultsArea">
+            <div class="result-section">
+                <div class="section-title">Influência da Data</div>
+                <div class="cards-display" id="dateCardsDisplay"></div>
+                <div class="influence-text" id="dateInfluenceText"></div>
+            </div>
+
+            <div class="result-section">
+                <div class="section-title">Influência do Nome</div>
+                <div class="cards-display" id="nameCardsDisplay"></div>
+                <div class="influence-text" id="nameInfluenceText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inicializa os seletores de Data
+        window.onload = function() {
+            const daySel = document.getElementById('dayInput');
+            for(let i=1; i<=31; i++) {
+                daySel.innerHTML += `<option value="${i}">${i}</option>`;
+            }
+            
+            const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+            const monthSel = document.getElementById('monthInput');
+            months.forEach((m, index) => {
+                const val = (index + 1).toString().padStart(2, '0');
+                monthSel.innerHTML += `<option value="${val}">${m}</option>`;
+            });
+            
+            const yearSel = document.getElementById('yearInput');
+            for(let i=2026; i>=1900; i--) {
+                const isSelected = (i === 1900) ? 'selected' : '';
+                yearSel.innerHTML += `<option value="${i}" ${isSelected}>${i}</option>`;
+            }
+        };
+
+        const chaldeanValues = {
+            'A': 1, 'I': 1, 'J': 1, 'Q': 1, 'Y': 1, 'B': 2, 'K': 2, 'R': 2,
+            'C': 3, 'G': 3, 'L': 3, 'S': 3, 'D': 4, 'M': 4, 'T': 4,
+            'E': 5, 'H': 5, 'N': 5, 'X': 5, 'U': 6, 'V': 6, 'W': 6,
+            'O': 7, 'Z': 7, 'F': 8, 'P': 8
+        };
+
+        const tarotDB = {
+            1: { title: "O Mago", img: "https://i.ibb.co/JW6w4F6x/IMG-5793.png",
+                mat: "A tendência é que você tenha enorme habilidade, destreza e iniciativa para ir atrás do que deseja. Sua vida costuma ser pautada pela investigação e busca rápida por realizações, contando frequentemente com vitalidade e tendências favoráveis para lidar com o mundo físico.",
+                ment: "A criatividade tende a ser o seu ponto forte. Você costuma estar sempre iniciando projetos, demonstrando flexibilidade e astúcia. Sua comunicação costuma ser efusiva, com grande eloquência e facilidade para expressar seus planos.",
+                sent: "Você tende a buscar constantemente alegrias, novidades e melhorias na vida afetiva. Costuma agir com espontaneidade, embora seus desejos possam ser efêmeros caso não encontre a reciprocidade necessária para aprofundá-á-los.",
+                prof: "Moda, design, marketing, profissões ligadas à atualidade, YouTuber, publicidade, propaganda, jornalismo, relações públicas, artes cênicas, tradução e interpretação, vendas, corretagem de imóveis ou seguros, hotelaria, eletrônica, mecânica, projetos, arquitetura, paisagismo, informática e atividades ligadas à internet (webmaster, webdesigner).",
+                adv: "Analise bem as propostas que surgem e observe seus sentimentos em relação ao futuro. Evite dispersar sua energia buscando a perfeição irreal; acredite em si mesmo e siga em frente, pois tudo é possível.",
+                cons: "Não espere que o destino aja por você. Aproveite as oportunidades, (re)crie, (re)invente e dialogue com todos ao seu redor. Essa é a melhor maneira de alcançar seus objetivos." },
+            2: { title: "A Papisa", img: "https://i.ibb.co/dsBDrb5B/IMG-5794.png",
+                mat: "Suas realizações tendem a involver análise cuidadosa e, por vezes, burocracia ou dependência de terceiros. Você costuma trabalhar muito, mas pode assumir uma postura passiva diante de decisões importantes, o que eventualmente atrasa a conclusão das suas metas.",
+                ment: "A tendência é que você tenha uma mente profundamente reflexiva, focada no bom senso, na sabedoria e na memória. Pode preferir ocultar seus planejamentos, tendo certa dificuldade em articular verbalmente seus propósitos. Sua fala costuma ser serena e suave.",
+                sent: "Você tende a viver o afeto através da fidelidade e dedicação, mas frequentemente pode inibir seus desejos. O receio de se entregar ao amor tem potencial para gerar carência, ressentimentos ocultos ou amores platônicos.",
+                prof: "Psicóloga, trabalhos de natureza burocrática, trabalhos que exijam perfeição, trabalhos executados sozinha, biblioteconomia, arquivologia, economia, alimentos, nutrição, odontologia, medicina, pedagogia, terapia ocupacional, serviço social, literatura, arqueologia, esoterismo e ocultismo.",
+                adv: "Pare de buscar a perfeição ou de ter medo de falar o que pensa e sente. É fundamental agir com mais rapidez. Confie em si e peça conselhos a pessoas de confiança quando necessário.",
+                cons: "Embora seja sábio analisar os fatos em silêncio, não se isole. A meditação e a observação são suas aliadas, mas saiba o momento exato de sair da passividade e se expressar." },
+            3: { title: "A Imperatriz", img: "https://i.ibb.co/rGB2N8Y0/IMG-5795.png",
+                mat: "A tendência é que você atraia crescimento, fertilidade e prosperidade. Sua capacidade de adaptação costuma garantir que, mesmo diante de problemas, você encontre soluções rápidas, bem-estar e caminhos abertos para seus objetivos.",
+                ment: "Sua inteligência tende a ser criativa e dedutiva. Você costuma planejar de forma eficaz, agir com perspicácia e verbalizar com clareza aquilo que carrega na alma. Sua comunicação tem tendência a ser muito vibrante.",
+                sent: "Você costuma direcionar sua vontade para a alegria e o prazer. A tendência é ser uma pessoa afável, altamente sensual e que busca melhorar tudo o que possui, entregando-se com equilíbrio para garantir um futuro feliz.",
+                prof: "Cinema, artes cênicas, dança, música, produção, jornalismo, secretariado, vendas, marketing, relações públicas, propaganda, comunicação social, internet, antiquário (marchand), estética (cabeleireiro), ramo têxtil e estilista.",
+                adv: "Mantenha a mesma intensidade e foco nos seus desejos. Não mude seus planos no meio do caminho; as situações tendem a estar estruturadas para dar certo se você mantiver suas atitudes.",
+                cons: "Não perca tempo com perfeccionismo ou pensamentos inúteis. Não hesite. Avance e aproveite todas as chances que a vida lhe oferece, pois seus caminhos estão prontos para o sucesso." },
+            4: { title: "O Imperador", img: "https://i.ibb.co/HfY17FcD/IMG-5796.png",
+                mat: "A tendência é que você seja movido pela estabilidade, pelo poder e pelo controle. Costuma ter grande facilidade para solucionar problemas, manter suas conquistas e impor sua autoridade no ambiente em que vive.",
+                ment: "Suas ideias tendem a ser lógicas, práticas e objetivas. Você costuma ser convicto, mas pode, por vezes, se tornar inflexível ou intolerante. Sua comunicação tende a ser mais direta e sem rodeios.",
+                sent: "Pode haver uma tendência à dificuldade em expressar carinho e atenção, às vezes aparentando insensibilidade. Seu apego pode se manifestar de forma possessiva, como fruto do medo de perder o que conquistou.",
+                prof: "Profissões que requerem autoridade sobre alguém, personagem trainee, gerente, funcionário público, delegado, juiz, professor, militar, administração de empresas, contabilidade, economia, matemática, direito, diplomacia, engenharia, física, análise de sistemas, corretagem, vendas, atividades empresariais, política, estiva, lutas em geral (boxe, judô etc.) e mecânica.",
+                adv: "Aprenda a ser mais paciente e a ouvir as opiniões alheias. Seja mais condescendente, afável e menos tenso. Muito cuidado para que sua autoconfiança não soe como arrogância.",
+                cons: "Mantenha sua autoridade e força de vontade, mas sem se fechar. Continue focado em seus objetivos para atingir o sucesso, sem fraquejar ou se deixar levar facilmente por ideias alheias." },
+            5: { title: "O Hierofante", img: "https://i.ibb.co/YTBhJ2mw/IMG-5797.png",
+                mat: "Você tende a pautar suas realizações na legalidade, nas regras e na moral. Costuma buscar sempre organizar a vida através de contratos seguros, parcerias justas e muita responsabilidade. A integridade costuma ser a base do seu sustento.",
+                ment: "A tendência é ter um apego a ideias preconcebidas e dogmas, mostrando certa rigidez nas opiniões. No entanto, sua comunicação costuma ser diplomática, moderada e prudente, transmitindo serenidade.",
+                sent: "Suas relações tendem a ser baseadas na lealdade, na bondade e no companheirismo. O amor, para você, costuma ser uma forma de preservar o que há de mais precioso. Há uma forte tendência a valorizar muito a amizade na relação.",
+                prof: "Profissões ligadas à saúde, funcionário público, profissões ligadas à organização, auditor, administrador, magistério, pedagogia, psicologia, literatura, filosofia, letras, linguística, história, jornalismo, arqueologia, serviço social, pediatria, fonoaudiologia, biblioteconomia, odontologia, medicina, arquivologia, direito, sacerdócio, ocultismo e oratória.",
+                adv: "Seja mais flexível. Aprenda a ouvir o outro, trocar ideias e aceitar novas possibilidades que fujam da sua estrutura rígida. Lembre-se de sempre agir com honra e virtude.",
+                cons: "Não permita que terceiros ditem as regras da sua vida; tenha suas próprias convicções. Honre sempre sua palavra e aja com honestidade, pois sua força reside na sua moralidade." },
+            6: { title: "Os Enamorados", img: "https://i.ibb.co/gb1qMVdy/IMG-5798.png",
+                mat: "Sua vida tende a ser marcada por múltiplas oportunidades, benefícios e caminhos abertos. Você costuma atrair boas sociedades e ofertas, mas seu maior desafio frequentemente é fazer escolhas importantes para progredir.",
+                ment: "Sua mente costuma ser frequentemente povoada por dúvidas, hesitações e reflexões antes de agir. Você tende a avaliar todas as opções e a se expressar de maneira gentil, afetuosa e diplomática.",
+                sent: "O romantismo, o desejo e o magnetismo tendem a reger seu coração. A tendência é que haja uma forte necessidade de ser amado, buscando sempre harmonia, paixão e intensidade sensual nas relações.",
+                prof: "Negociador, conciliador, decoração, dança, moda, desenho, pintura, escultura, música, artes cênicas, paisagismo, literatura (escritor), antiquário (marchand), arquitetura, musicoterapia, cromoterapia, gemoterapia, informática (webdesigner) e marcenaria.",
+                adv: "Controle a ansiedade, o nervosismo e a mania de desejar a perfeição absoluta. É impossível ter tudo ao mesmo tempo. Seja mais prático e objetivo na hora de olhar para a realidade.",
+                cons: "Use seu livre-arbítrio com inteligência, pensando no futuro e não apenas no desejo do momento. A sorte tende a estar ao seu lado, mas a decisão correta depende unicamente de você." },
+            7: { title: "O Carro", img: "https://i.ibb.co/LDNhb1dN/IMG-5799.png",
+                mat: "A tendência é que você tenha um perfil conquistador. O progresso e o desenvolvimento costumam acontecer rapidamente na sua vida, graças ao seu foco e força de vontade. Você tende a desbravar caminhos.",
+                ment: "Sua mente tende a operar com diretrizes claras e inteligência focada. Você costuma ser determinado, organizado e possui uma fluência verbal firme, colocando seus projetos de forma arrojada.",
+                sent: "Você costuma ser entusiasmado, impulsivo e magnético. Suas emoções tendem a ser intensas, mas geralmente bem controladas. A tendência é exigir independência afetiva, mas se entregar com sinceridade ao parceiro(a).",
+                prof: "Autônomo, profissão liberal, empresário, controlador de voo, motorista, piloto, jornalismo, marketing, propaganda, artes cênicas, relações internacionais, educação física, turismo, hotelaria, tradução e interpretação, aviação, vendas, política, carreira militar e esoterismo.",
+                adv: "Aja com cautela e avance com moderação. Apesar das boas tendências, observe as experiências alheias, siga as regras estabelecidas e não desista diante dos primeiros obstáculos.",
+                cons: "Querer é poder, mas exige atitude. Siga adiante com seus planos de forma dinâmica e objetiva, mantendo sempre os olhos fixos na sua meta. O progresso só existe com direção." },
+            
+            /* -- ALTERAÇÕES REALIZADAS AQUI (Arcanos 8 e 11) -- */
+            8: { title: "A Força", img: "https://i.ibb.co/CpVG8K7P/IMG-5800.png",
+                mat: "A tendência é que você exerça controle magnético sobre sua vida prática. Sua coragem e segurança costumam garantir empreendedorismo e um domínio facilitado sobre circunstâncias materiais ou financeiras.",
+                ment: "Você costuma ser convicto e determinado, mas com tendência a agir com serenidade. Sua inteligência costuma ser criativa. Sua comunicação tende a ser bem estruturada, equilibrada e altamente argumentativa.",
+                sent: "Você tende a basear suas relações na segurança emocional. Costuma possuir enorme magnetismo e afeto, sabendo dominar seus impulsos e libido como forma de autoproteção e cuidado com o parceiro.",
+                prof: "Gerente, pedagogia, psicologia, psicanálise, sexologia, serviço social, terapias em geral, veterinária, zootecnia, biologia, pesquisas em geral, atividades autônomas e administração de empresas.",
+                adv: "Aceite seus limites, dê valor ao próximo e evite a necessidade de sempre dar a última palavra. Para manter suas conquistas, a tolerância, a paciência e a reciprocidade são fundamentais.",
+                cons: "Confie na sua força moral e siga dominando as situações com coragem. Não acredite apenas na palavra alheia; firme-se na sua própria decisão e não tenha medo de perdas, pois seus caminhos costumam estar abertos." },
+                
+            9: { title: "O Eremita", img: "https://i.ibb.co/4nS1ySrc/IMG-5801.png",
+                mat: "A tendência é que você construa sua vida em longo prazo. Seu progresso pode tender a ser mais lento e cercado por adiamentos, mas sua prudência e planejamento costumam garantir realizações sólidas.",
+                ment: "Você costuma ser um pesquisador nato, sempre em busca de sabedoria e autoconhecimento. Tende a ser desconfiado e cauteloso, guardando seus desejos para si com uma fala mais moderada e silenciosa.",
+                sent: "Você tende a prezar pela paz interior, pela calma e pelo equilíbrio emocional. Costuma valorizar amizades profundas e cumplicidade, preferindo muitas vezes o recolhimento a relações superficiais.",
+                prof: "Professor, instrutor, trabalho burocrático, trabalhos rotineiros, funcionário público, trabalho de minúcia, lapidador, entalhe, tecnologia da informação, programação, trabalhos solitários, pedagogia, medicina, enfermagem, odontologia, fisioterapia, fonoaudiologia, terapias em geral, serviço social, psicologia, psiquiatria, saneamento, museologia, arqueologia, sacerdócio, esoterismo, ocultismo e filosofia.",
+                adv: "Cuidado com a ansiedade perante a lentidão dos resultados. Entenda que as coisas têm seu próprio tempo de maturação. Ouse mais e tente acelerar um pouco seus passos, sem desistir das suas ideias.",
+                cons: "A paciência costuma ser sua ferramenta mais afiada. Estimule a serenidade e não se deixe envolver pelo negativismo. Compreenda os percalços como degraus essenciais para o sucesso duradouro." },
+            10: { title: "A Roda da Fortuna", img: "https://i.ibb.co/2r1jDTR/IMG-5802.png",
+                mat: "Sua vida tende a ser pautada por instabilidade e movimentos rápidos. Você costuma atrair oportunidades inusitadas, reformas e mudanças constantes, dependendo de muita adaptabilidade para prosperar.",
+                ment: "Você tende a lidar com uma multiplicidade de ideias que frequentemente podem gerar incerteza e dispersão. Sua comunicação costuma ser agitada, falando rápido e se expressando com muita energia.",
+                sent: "Suas relações tendem a ser marcadas por inconstância emocional. A ansiedade pode ditar o ritmo dos seus afetos, fazendo com que você busque constantemente redescobertas, nem sempre com total confiança.",
+                prof: "Autônomo, ambulante, publicidade, propaganda, jornalismo, relações públicas, vendas, corretagem de seguros ou imóveis, marketing, recursos humanos, turismo, aviação, automobilismo, informática, internet e atividades autônomas em geral.",
+                adv: "Controle o nervosismo e não supervalorize problemas pequenos e sem sentido prático. Foque nos seus objetivos com determinação e busque ajuda de amigos para se manter centrado.",
+                cons: "Seja flexível e aceite as mudanças. Deixe a vida fluir e transforme as oportunidades repentinas em caminhos para o sucesso. O segredo é combater a dispersão e domar a ansiedade." },
+                
+            /* -- ALTERAÇÕES REALIZADAS AQUI (Arcanos 8 e 11) -- */
+            11: { title: "A Justiça", img: "https://i.ibb.co/xqvvnYH0/IMG-5803.png",
+                mat: "Você tende a viver em constante reavaliação dos seus passos, buscando sempre o que é justo e verdadeiro. Suas realizações costumam depender de definições claras e de cortes necessários em pendências.",
+                ment: "A tendência é que você seja altamente racional, organizado e rigoroso. Sua busca pela imparcialidade pode, por vezes, soar como intransigência. Sua comunicação tende a ser mais questionadora e lacônica.",
+                sent: "Você costuma ter uma tendência a manter um distanciamento e certa frieza afetiva, buscando sempre reavaliar o relacionamento. Essa retidão pode gerar, em alguns momentos, falta de carinho espontâneo.",
+                prof: "Auditor fiscal, emprego avaliador que segue protocolo, direito, diplomacia, atuária, informática, jornalismo, administração de empresas, sociologia, antropologia, física, química, matemática, contabilidade, segurança do trabalho, perícia industrial e criminal e política em geral.",
+                adv: "Cuidado para que sua busca por justiça e organização não se transforme em bloqueio emocional ou medo de expressar seus verdadeiros desejos. Pondere melhor antes de julgar a si e aos outros.",
+                cons: "Seja racional e mantenha uma conduta imparcial, mas não esqueça a empatia. Cumpra seus acordos, honre sua palavra e defina seus projetos com extrema clareza para garantir estabilidade." },
+                
+            12: { title: "O Pendurado", img: "https://i.ibb.co/4Z4ZsrnL/IMG-5804.png",
+                mat: "Você tende a vivenciar frequentemente períodos de estagnação ou dependência de terceiros. Costuma esbarrar em obstáculos que exigem paciência, lidando com lentidão na resolução dos seus projetos.",
+                ment: "Pode haver uma tendência a se prender a ideais utópicos ou a certa rigidez de opinião. A mente pode ficar presa ao passado, refletindo indecisão e gerando uma comunicação, às vezes, mais lamentosa.",
+                sent: "A tendência é ser propenso a sacrifícios ou relacionamentos de forte apego e subordinação. Pode tender a sofrer com carência, ressentimento ou dependência emocional prolongada.",
+                prof: "Pedagogia, psicologia, serviço social, medicina, odontologia, música, pintura, escultura, artes cênicas, terapia ocupacional, sacerdócio e filosofia.",
+                adv: "Afaste-se da utopia e faça uma autocrítica gentil. Valorize sua própria vida, observe a realidade à sua volta com os pés no chão, reavalie seu futuro e, acima de tudo, busque perdoar e liberar o passado.",
+                cons: "Quando a vida parecer estagnar, aquiete-se. Não tome atitudes precipitadas nem se envolva em dramas desnecessários. Busque compreender os ciclos da vida através de uma postura de resignação positiva." },
+            13: { title: "A Morte", img: "https://i.ibb.co/XktBgc0T/IMG-5805.png",
+                mat: "Sua jornada tende a ser marcada por transformações profundas e cortes necessários. Você costuma saber planejar mudanças radicais para solucionar problemas, recomeçando sempre que necessário para recuperar o controle.",
+                ment: "A tendência é que você seja dono de uma lucidez e discernimento implacáveis. Usa a lógica para romper com planos antigos. Sua comunicação tende a ser muito sincera e direta, às vezes soando altamente crítica.",
+                sent: "Pode haver uma tendência à dificuldade em perdoar e carregar mágoas de experiências passadas. Às vezes, o instinto de proteção gera um pessimismo e um afastamento emocional quando há desconforto.",
+                prof: "Faxineira, cabeleireiro, profissões que arrumam/consertam, profissões da moda, jornalista, profissões visionárias, medicina, fisioterapia, enfermagem, psiquiatria, obstetrícia, agricultura, pecuária, crítica literária, pedagogia e escritor.",
+                adv: "Seja mais amável e condescendente. Não argumente em demasia; tenha pulso firme, mas busque o senso comum. Aprenda a ceder de forma inteligente sem perder a direção dos seus objetivos.",
+                cons: "Elimine os obstáculos mudando seus paradigmas. Não tema o futuro nem o desapego. A transformação e o corte do que não serve mais costumam ser as melhores formas de garantir seu bem-estar." },
+            14: { title: "A Temperança", img: "https://i.ibb.co/yFBPt2hm/IMG-5806.png",
+                mat: "Você tende a construir sua vida por meio da conciliação, parsimônia e acordos de longo prazo. Costuma lidar com lentidão e burocracia, mas tem o dom de se adaptar para garantir o sucesso futuro.",
+                ment: "Sua mente tende a operate através da flexibilidade e da reflexão cautelosa. Você costuma ponderar exaustivamente todas as opções e se expressa de maneira bastante reservada e moderada.",
+                sent: "Você costuma preferir relações pautadas na grande amizade e na tranquilidade, fugindo de conflitos. Contudo, essa calmaria constante pode, por vezes, gerar uma aparente inércia em demonstrar afeto.",
+                prof: "Engenheiro químico, cozinheiro, farmácia, alquimista, terapia holística, homeopatia, química, bioquímica, biologia, genética, engenharia, meteorologia, telecomunicações e esoterismo.",
+                adv: "Mantenha seus ideais firmes até o fim. Mesmo que a lentidão o faça desejar desistir de projetos, tenha resiliência. A felicidade e a realização tendem a chegar, mas exigem tempo.",
+                cons: "A moderação é o seu caminho. Aceite os limites do tempo, tenha paciência e busque sempre a harmonia. Espere com serenidade; não é o melhor momento para forçar situações que ainda precisam amadurecer." },
+            15: { title: "O Diabo", img: "https://i.ibb.co/NgzVvvG6/IMG-5807.png",
+                mat: "A tendência é que você tenha uma ambição intensa e grande facilidade para obter êxito, domínio e status. Costuma possuir poder magnético sobre as situações, devendo apenas cuidar com impulsos compulsivos.",
+                ment: "Sua mente tende a ser sagaz, criativa e extremamente focada no que deseja. Você costuma ser perspicaz e sua comunicação tende a ser envolvente, retórica e capaz de seduzir ou convencer com facilidade.",
+                sent: "Você tende a viver a paixão de forma visceral. Seus impulsos costumam ser fortes e focados na sedução, o que às vezes pode descambar para tendências de posse, controle ou intensa dependência afetiva.",
+                prof: "Artista, jornalista, político, administração de empresas, corretagem de imóveis ou bolsa de valores, engenharia civil, geologia, geofísica, geografia, edificações, agrimensura, estradas, ourivesaria, joalheria, enologia, degustação, alimentação e nutrição.",
+                adv: "Modere a necessidade de controle absoluto. Reflita sobre as consequências de seus atos, aprenda a aceitar limites e entenda que o excesso nem sempre garante a satisfação plena que você busca.",
+                cons: "Use sua audácia e destemor a seu favor. Tende a ser benéfico focar nas suas próprias necessidades, buscar o seu prazer pessoal e construir o futuro que deseja com magnetismo e autoconfiança." },
+            16: { title: "A Torre", img: "https://i.ibb.co/7tDBMH76/IMG-5808.png",
+                mat: "Você tende a atrair ou vivenciar mudanças drásticas que desestabilizam a zona de conforto. Suas ações, quando precipitadas, podem levar a rupturas, forçando-o a reconstruir do zero e se reinventar.",
+                ment: "Em momentos de crise, sua mente pode tender à desordem. A tendência é, às vezes, se apegar a ilusões tentando consertar o impossível. A comunicação pode se tornar defensiva e gerar embates.",
+                sent: "Você costuma lidar com o medo do futuro e com eventuais desilusões. O orgulho ferido pode despertar ressentimentos passageiros e uma tendência a um isolamento emocional instintivo.",
+                prof: "Demolidor de prédio, perito do IML, dono de ferro-velho, engenharias (civil, química, militar, nuclear, genética), física, invenções, ciência, agrimensura, estradas, saneamento, metalurgia, siderurgia, direito, carreira política ou militar, sacerdócio e esoterismo.",
+                adv: "Viver no passado é perder o futuro. Busque aceitar as rupturas e perdoe, mesmo quando sentir que foi injustiçado. A resistência às mudanças costuma apenas prolongar a insatisfação.",
+                cons: "Busque transformar sua forma de pensar. Rompa com situações e crenças que lhe causam estagnação. A revolução interna e a aceitação costumam ser os melhores caminhos para o alívio e a cura." },
+            17: { title: "A Estrela", img: "https://i.ibb.co/DXX9hVp/IMG-5809.png",
+                mat: "A tendência é que você atraia realizações prósperas, sorte e oportunidades que abrem caminhos. Sua conduta equilibrada costuma garantir crescimento rápido e descobertas benéficas para a sua segurança.",
+                ment: "Você tende a ser idealista, harmonioso e sempre em busca de inspiração e clareza. Possui uma convicção forte em um destino positivo. Sua comunicação costuma ser fraterna, sincera e transmitir esperança.",
+                sent: "O otimismo e a busca pela paz interior tendem a reger seu coração. Você costuma viver afetos baseados na amizade profunda, confiança mútua e entusiasmo, buscando genuinamente a alegria nas relações.",
+                prof: "Florista, bordadeira, artesã, engenharias (florestal, de pesca, ambiental), ecologia, astronomia, meteorologia, oceanografia, agronomia, zoologia, veterinária, agropecuária, geografia, informática, homeopatia, fisioterapia e esoterismo.",
+                adv: "Não fique estagnado. Avance sem medo de realizar aquilo que planejou, pois as energias tendem a estar a seu favor. Não permita que pequenas dúvidas apaguem sua fé no futuro.",
+                cons: "Mantenha viva a esperança. Confie na vida, alimente seu amor-próprio e siga em frente com a certeza de desfechos benéficos. A autoestima e a fé costumam ajudar a remover muitos obstáculos." },
+            18: { title: "A Lua", img: "https://i.ibb.co/wrMDgvWT/IMG-5810.png",
+                mat: "A tendência é que você possua forte capacidade de gerar abundância e atrair popularidade. Contudo, seus avanços frequentemente esbarram em crises de insegurança, exigindo que você separe a realidade da ilusão.",
+                ment: "Sua imaginação costuma ser vasta, mas pode levar a devaneios ou medos ocultos. Às vezes, há dificuldade em ver situações com clareza objetiva. Sua fala tende a refletir essas hesitações e ser um pouco imprecisa.",
+                sent: "Você tende a ser movido por grande magnetismo, paixão e romantismo. Por sonhar com o amor profundo, pode tender à dependência afetiva e ao medo de ser abandonado, o que gera angústias internas.",
+                prof: "Ator, artesão, poeta, psicologia, psicanálise, psiquiatria, neurologia, artes cênicas, literatura (romance, ficção), esoterismo, ocultismo e filosofia.",
+                adv: "Vigie de perto sua imaginação e a tendência à ansiedade. Busque lucidez máxima antes de tomar decisões e evite o isolamento. Converse e encare a realidade com mais pragmatismo e serenidade.",
+                cons: "A chave para a sua evolução costuma ser o autoconhecimento. Estimule sua autoestima para afastar a insegurança e as ilusões. Acredite em si confiando mais em quem você realmente é, no seu íntimo." },
+            19: { title: "O Sol", img: "https://i.ibb.co/8yBz3PR/IMG-5811.png",
+                mat: "Você tende a viver uma trajetória de êxito e realizações prósperas. Seu progresso costuma ser contínuo e há uma grande tendência para fechar parcerias de sucesso, mantendo brilho, equilíbrio e crescimento.",
+                ment: "Sua mente tende a trabalhar com extrema clareza e objetividade. Você costuma confiar no presente, planejar de maneira estruturada e se comunicar com os demais de forma muito dócil, harmoniosa e verdadeira.",
+                sent: "A tendência é que você seja radiante, cordial e afetuoso. Suas relações costumam ser baseadas na alegria constante. Você sente enorme entusiasmo e satisfação ao buscar cumplicidade e felicidade.",
+                prof: "YouTuber, fotógrafo, publicitário, digital influencer, professor, jornalista, música, cinema, dança, artes plásticas, artes cênicas, literatura, musicoterapia, paisagismo, terapias em geral, educação física e esoterismo.",
+                adv: "O grande perigo é tentar mudar o que já está funcionando em busca de uma falsa perfeição. Evite mexer excessivamente no que está dando certo para não atrasar a sua própria felicidade.",
+                cons: "Seja sempre otimista. Harmonize-se com as pessoas ao redor, evite a reclusão e saiba aceitar a colaboração dos outros, deixando de lado o autoritarismo. Acredite na luz que guia seus projetos." },
+            20: { title: "O Julgamento", img: "https://i.ibb.co/pj7Z6KrX/IMG-5812.png",
+                mat: "A tendência é que você seja movido pela descoberta e renovação. Sua vida prática costuma se desenvolver através de novidades inesperadas e surpresas do destino que frequentemente abrem portas para recomeços.",
+                ment: "O intelecto e a ponderação tendem a marcar seu pensamento. Você costuma planejar o futuro com uma perspectiva de renovação. Sua comunicação tende a ser sucinta e sua crítica metodicamente construtiva.",
+                sent: "Você costuma ter facilidade para o perdão e a transcendência. A tendência é conseguir se curar após turbulências, reabilitando a vontade e o afeto para recomeçar com a alma mais leve e em paz.",
+                prof: "Todas as profissões da área médica, advogado, YouTuber, anunciante, jornalista, reciclagem, terapia holística, acupuntura, psiquiatria, biologia, genética, arquitetura, engenharia, homeopatia, sacerdócio, esoterismo e literatura.",
+                adv: "Deixe o passado no passado. A tendência ideal é aceitar as inovações que a vida lhe propõe de braços abertos. Seja flexível e evite resistir às mudanças que surgem para o seu crescimento.",
+                cons: "Reavalie suas atitudes e transcenda suas limitações. Busque perdoar a si mesmo e aos outros. Renove seus objetivos com esperança, pois frequentemente uma nova fase promissora o aguarda." },
+            21: { title: "O Mundo", img: "https://i.ibb.co/wFG4jQmV/IMG-5813.png",
+                mat: "Você tende a viver pautado no triunfo, na expansão e no êxito final. Costuma ter facilidade para dissolver obstáculos e garantir resultados altamente satisfatórios e segurança no longo prazo.",
+                ment: "Idealização e criatividade tendem a definir suas ideias. Você costuma questionar o presente para planejar de forma construtiva. Sua expressão tende a ser autêntica, permitindo uma comunicação objetiva e direta.",
+                sent: "Você costuma experimentar a afetividade através da honestidade, integridade e autossuficiência. A tendência é possuir autoestima elevada e admirar quem ama, mas sempre prezando pela independência emocional.",
+                prof: "YouTube, profissões midiáticas, home office, chefia, trabalho em multinacionais, direito, economia, administração, engenharia, pedagogia e política.",
+                adv: "Evite adiar planos e continue focado nas metas que já traçou. Mantenha sua autoconfiança inabalável e procure não se subjugar aos caprichos de terceiros. Seu amor-próprio deve ditar as escolhas.",
+                cons: "Invista na sua independência material e emocional. Valorize seus desejos e dedique tempo ao lazer e à vida pessoal. Permita-se colher os frutos do seu esforço e sentir-se verdadeiramente pleno." },
+            22: { title: "O Louco", img: "https://i.ibb.co/tPYwdb96/IMG-5792.png",
+                mat: "Você tende a lidar com o mundo prático buscando sempre novos caminhos. Mas uma frequente aversão à rotina pode gerar certa precipitação. Muitas vezes, os obstáculos reais nascem da própria falta de organização.",
+                ment: "Sua mente tende a ser rápida, alegre e expressiva, mas frequentemente sujeita à indecisão. Formular planos de modo muito sonhador pode causar atrasos. Sua comunicação, embora eloquente, pode perder o foco.",
+                sent: "O prazer e a aventura tendem a ser as grandes motivações das suas relações. Você costuma viver o amor com entusiasmo, mas há a tendência de confundir impulsos passageiros com compromissos de longo prazo.",
+                prof: "Palhaço, publicidade, marketing, jornalismo, aviação, automobilismo, produção de eventos, artes cênicas, pesquisas, invenções e explorações.",
+                adv: "Organize suas ideias e seja mais coerente. Tente assumir responsabilidades e evite a dispersão extrema. Rever constantemente seu planejamento futuro será benéfico para ancorar sua energia.",
+                cons: "Use sua ousadia natural para pesquisar novos horizontes, mas mantenha-se aterrado diante dos obstáculos. Seja dinâmico, mas busque ouvir também o bom senso para que suas explorações gerem bons frutos." }
+        };
+
+        function sumStringDigits(str) {
+            return str.split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+        }
+
+        function reduceToSingleDigit(num) {
+            if (num === 0) return 0;
+            let sum = num;
+            while (sum > 9) {
+                sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+            }
+            return sum;
+        }
+
+        function calculateLive() {
+            const rawValue = document.getElementById('nameInput').value;
+            const namesRow = document.getElementById('namesRow');
+            
+            namesRow.innerHTML = '';
+            
+            if (!rawValue.trim()) return;
+
+            const words = rawValue.split(/\s+/).filter(w => w.length > 0);
+
+            words.forEach(word => {
+                const normalizedWord = word
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toUpperCase()
+                    .replace(/[^A-Z]/g, '');
+
+                let wordTotal = 0;
+                for (let char of normalizedWord) {
+                    if (chaldeanValues[char]) wordTotal += chaldeanValues[char];
+                }
+
+                if (wordTotal > 0) {
+                    const reduced = reduceToSingleDigit(wordTotal);
+                    const block = document.createElement('div');
+                    block.className = 'name-block';
+                    block.innerHTML = `<span class="word">${word}</span><span class="number">${wordTotal > 9 ? `${wordTotal}/${reduced}` : wordTotal}</span>`;
+                    namesRow.appendChild(block);
+                }
+            });
+        }
+
+        function getArcanaArray(total) {
+            if (total === 0) return [];
+            let sum = total;
+            
+            while (sum > 22) {
+                sum = sumStringDigits(sum.toString());
+            }
+
+            const primary = sum;
+            const arcanas = [primary];
+            
+            if (primary >= 11 && primary <= 22) {
+                const secondary = sumStringDigits(primary.toString());
+                arcanas.push(secondary);
+            }
+            
+            return arcanas;
+        }
+
+        function calculateAll() {
+            const day = document.getElementById('dayInput').value;
+            const month = document.getElementById('monthInput').value;
+            const year = document.getElementById('yearInput').value;
+            const nameRaw = document.getElementById('nameInput').value;
+
+            if (!day || !month || !year || !nameRaw.trim()) {
+                alert("Por favor, preencha todos os campos da data e o nome completo.");
+                return;
+            }
+
+            const dateStr = day + month + year;
+            const dateTotalSum = sumStringDigits(dateStr);
+            const dateArcanas = getArcanaArray(dateTotalSum);
+            renderResult('date', dateArcanas);
+
+            const words = nameRaw.split(/\s+/).filter(w => w.length > 0);
+            let nameTotalSum = 0;
+            words.forEach(word => {
+                const normalizedWord = word
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toUpperCase()
+                    .replace(/[^A-Z]/g, '');
+
+                let wordTotal = 0;
+                for (let char of normalizedWord) {
+                    if (chaldeanValues[char]) wordTotal += chaldeanValues[char];
+                }
+                nameTotalSum += reduceToSingleDigit(wordTotal);
+            });
+
+            const nameArcanas = getArcanaArray(nameTotalSum);
+            renderResult('name', nameArcanas);
+
+            document.getElementById('resultsArea').style.display = 'flex';
+        }
+
+        function renderResult(type, arcanaIds) {
+            const displayContainer = document.getElementById(`${type}CardsDisplay`);
+            const textContainer = document.getElementById(`${type}InfluenceText`);
+            
+            displayContainer.innerHTML = '';
+            textContainer.innerHTML = '';
+
+            if (arcanaIds.length === 0) return;
+
+            arcanaIds.forEach((id, index) => {
+                const data = tarotDB[id];
+                const imgClass = index === 0 ? 'tarot-img primary' : 'tarot-img secondary';
+                displayContainer.innerHTML += `<img src="${data.img}" alt="${data.title}" title="${data.title}" class="${imgClass}">`;
+            });
+
+            let htmlText = '';
+
+            if (arcanaIds.length > 1) {
+                htmlText += `
+                <div class="secondary-note">
+                    <strong>Atenção ao Arcano Secundário</strong>
+                    Às vezes, o <em>Arcano Secundário</em> exerce uma influência maior ou mais evidente na vida da pessoa do que o Principal. É importante que você analise a sua própria trajetória, observe com qual dessas duas forças você se identifica mais no dia a dia, e aprenda a trabalhar com ela a seu favor.
+                </div>`;
+            }
+            
+            arcanaIds.forEach((id, index) => {
+                const data = tarotDB[id];
+                const titleLabel = index === 0 ? "Arcano Principal" : "Arcano Secundário";
+                
+                htmlText += `
+                    <h4>${titleLabel}: ${data.title}</h4>
+                    <div class="influence-item"><strong>Vida Material:</strong> ${data.mat}</div>
+                    <div class="influence-item"><strong>Vida Mental:</strong> ${data.ment}</div>
+                    <div class="influence-item"><strong>Vida Sentimental:</strong> ${data.sent}</div>
+                    <div class="influence-item"><strong>Profissões Associadas:</strong> ${data.prof}</div>
+                    <div class="influence-item"><strong>Advertência:</strong> ${data.adv}</div>
+                    <div class="influence-item" style="margin-bottom: 20px;"><strong>Conselho:</strong> ${data.cons}</div>
+                `;
+            });
+
+            textContainer.innerHTML = htmlText;
+        }
+    </script>
+</body>
+</html>
