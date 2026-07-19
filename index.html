@@ -619,7 +619,7 @@
             });
             
             const yearSel = document.getElementById('yearInput');
-            for(let i=2026; i>=1900; i--) {
+            for(let i=1900; i<=2026; i++) {
                 const isSelected = (i === 1900) ? 'selected' : '';
                 yearSel.innerHTML += `<option value="${i}" ${isSelected}>${i}</option>`;
             }
