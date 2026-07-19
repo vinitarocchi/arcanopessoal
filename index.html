@@ -687,6 +687,26 @@
             return sum;
         }
 
+        // Reduz o total da data (Número de Destino), travando especificamente em 11 e 22
+        function reduceDateNumber(num) {
+            let n = num;
+            while (true) {
+                if (n === 11 || n === 22) return n;
+                if (n <= 9) return n;
+                n = sumStringDigits(n.toString());
+            }
+        }
+
+        // Reduz um valor já somado até virar um único dígito, sem travar em números mestres.
+        // Usado apenas para checar se um Destino 2 ou 4 esconde um 11 ou 22.
+        function reduceSimpleDigit(num) {
+            let n = num;
+            while (n > 9) {
+                n = sumStringDigits(n.toString());
+            }
+            return n;
+        }
+
         function calculateLive() {
             const rawValue = document.getElementById('nameInput').value;
             const namesRow = document.getElementById('namesRow');
@@ -760,16 +780,32 @@
                 return;
             }
 
-            // NOVA LÓGICA DE DATA: Processa cada parte reduzindo corretamente, mas travando nos mestres
-            const daySum = reduceDatePart(day);
-            const monthSum = reduceDatePart(month);
-            const yearSum = reduceDatePart(year);
-            
-            // Soma os resultados reduzidos dos três blocos
-            const dateTotalSum = daySum + monthSum + yearSum;
+            // NOVA LÓGICA DE DATA (Número de Destino): soma todos os dígitos da data (dia + mês + ano)
+            // e reduz respeitando os números mestres 11 e 22.
+            const dayDigitsSum = sumStringDigits(day);
+            const monthDigitsSum = sumStringDigits(month);
+            const yearDigitsSum = sumStringDigits(year);
+
+            const dateTotal = dayDigitsSum + monthDigitsSum + yearDigitsSum;
+            let dateResult = reduceDateNumber(dateTotal);
+
+            // Regra especial: se o resultado final for 2 ou 4, verifica se está ocultando um 11 ou 22,
+            // somando separadamente os valores reduzidos de dia, mês e ano.
+            if (dateResult === 2 || dateResult === 4) {
+                const reducedDay = reduceSimpleDigit(dayDigitsSum);
+                const reducedMonth = reduceSimpleDigit(monthDigitsSum);
+                const reducedYear = reduceSimpleDigit(yearDigitsSum);
+                const specialSum = reducedDay + reducedMonth + reducedYear;
+
+                if (dateResult === 2 && specialSum === 11) {
+                    dateResult = 11;
+                } else if (dateResult === 4 && specialSum === 22) {
+                    dateResult = 22;
+                }
+            }
             
             // Aplica as regras de 22 arcanos para o resultado final e secundários
-            const dateArcanas = getArcanaArray(dateTotalSum);
+            const dateArcanas = getArcanaArray(dateResult);
             renderResult('date', dateArcanas);
 
             // Lógica do nome usando a versão correta de redução
