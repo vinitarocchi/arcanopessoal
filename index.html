@@ -619,7 +619,7 @@
             });
             
             const yearSel = document.getElementById('yearInput');
-            for(let i=1900; i<=2026; i++) {
+            for(let i=2026; i>=1900; i--) {
                 const isSelected = (i === 1900) ? 'selected' : '';
                 yearSel.innerHTML += `<option value="${i}" ${isSelected}>${i}</option>`;
             }
@@ -852,7 +852,7 @@
                 htmlText += `
                 <div class="secondary-note">
                     <strong>Atenção ao Arcano Secundário</strong>
-                    Às vezes, o <em>Arcano Secundário</em> exerce uma influência maior ou mais evidente na vida da pessoa do que o Principal. É importante que você analise a sua própria trajetória, observe com qual dessas duas forças você se identifica mais no dia a dia, e aprenda a trabalhar com ela a seu favor.
+                    Às vezes, o <em>Arcano Secundário</em> exerce uma influência maior ou mais evidente na vida da pessoa do que o Principal. É importante que você analise a sua própria trajetória, observe com qual dessas duas forças você se identifica mais no dia a dia, e aprenda a trabalhar com ela a seu favor. Lembrando que é possível identificar-se com ambas e usar as duas juntas. O universo é plástico.
                 </div>`;
             }
             
