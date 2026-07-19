@@ -584,13 +584,11 @@
         <!-- MODO JOGO DE TAROT (Sorteio) -->
         <div id="gameMode" style="display: none;">
             <div id="gameModeHeader">
-                <!-- Título único requisitado -->
                 <h2 class="game-title">Conecte-se com sua intuição e escolha uma carta.</h2>
             </div>
             
             <div class="cards-grid" id="cardsGrid"></div>
             
-            <!-- Botão Voltar para caso de desistência (Aparece embaixo do grid) -->
             <div id="gameActions" style="margin-top: 16px; transition: opacity 0.5s ease;">
                 <button class="btn-alt" onclick="backToCalculator()">Voltar para a Calculadora</button>
             </div>
@@ -607,7 +605,6 @@
     </div>
 
     <script>
-        // Inicializa os seletores de Data
         window.onload = function() {
             const daySel = document.getElementById('dayInput');
             for(let i=1; i<=31; i++) {
@@ -637,7 +634,7 @@
 
         const tarotDB = {
             1: { title: "O Mago", img: "https://i.ibb.co/JW6w4F6x/IMG-5793.png", mat: "A tendência é que você tenha enorme habilidade, destreza e iniciativa para ir atrás do que deseja. Sua vida costuma ser pautada pela investigação e busca rápida por realizações.", ment: "A criatividade tende a ser o seu ponto forte. Você costuma estar sempre iniciando projetos, demonstrando flexibilidade e astúcia.", sent: "Você tende a buscar constantemente alegrias, novidades e melhorias na vida afetiva. Costuma agir com espontaneidade.", prof: "Moda, design, marketing, profissões ligadas à atualidade, YouTuber, publicidade, propaganda, jornalismo, relações públicas, artes cênicas, tradução e interpretação, vendas, corretagem de imóveis ou seguros, hotelaria, eletrônica, mecânica, projetos, arquitetura, paisagismo, informática e atividades ligadas à internet (webmaster, webdesigner).", adv: "Analise bem as propostas que surgem. Evite dispersar sua energia buscando a perfeição irreal; acredite em si mesmo e siga em frente.", cons: "Não espere que o destino aja por você. Aproveite as oportunidades, invente e dialogue com todos ao seu redor." },
-            2: { title: "A Papisa", img: "https://i.ibb.co/dsBDrb5B/IMG-5794.png", mat: "Suas realizações tendem a envolver análise cuidadosa. Você costuma trabalhar muito, mas pode assumir uma postura passiva diante de decisões.", ment: "A tendência é que você tenha uma mente profundamente reflexiva, focada na sabedoria e memória. Tende a ocultar seus planejamentos.", sent: "Você tende a viver o afeto através da fidelidade e dedicação, mas frequentemente pode inibir seus desejos com receio de se entregar.", prof: "Psicóloga, trabalhos de natureza burocrática, trabalhos que exijam perfeição, trabalhos executados sozinha, biblioteconomia, arquivologia, economia, alimentos, nutrição, odontologia, medicina, pedagogia, terapia ocupacional, serviço social, literatura, arqueologia, esoterismo e ocultismo.", adv: "Pare de buscar a perfeição ou ter medo de falar o que pensa. É fundamental agir com mais rapidez.", cons: "Embora seja sábio analisar os fatos em silêncio, não se isole. Saiba o momento exato de sair da passividade e se expressar." },
+            2: { title: "A Papisa", img: "https://i.ibb.co/dsBDrb5B/IMG-5794.png", mat: "Suas realizações tendem a involve análise cuidadosa. Você costuma trabalhar muito, mas pode assumir uma postura passiva diante de decisões.", ment: "A tendência é que você tenha uma mente profundamente reflexiva, focada na sabedoria e memória. Tende a ocultar seus planejamentos.", sent: "Você tende a viver o afeto através da fidelidade e dedicação, mas frequentemente pode inibir seus desejos com receio de se entregar.", prof: "Psicóloga, trabalhos de natureza burocrática, trabalhos que exijam perfeição, trabalhos executados sozinha, biblioteconomia, arquivologia, economia, alimentos, nutrição, odontologia, medicina, pedagogia, terapia ocupacional, serviço social, literatura, arqueologia, esoterismo e ocultismo.", adv: "Pare de buscar a perfeição ou ter medo de falar o que pensa. É fundamental agir com mais rapidez.", cons: "Embora seja sábio analisar os fatos em silêncio, não se isole. Saiba o momento exato de sair da passividade e se expressar." },
             3: { title: "A Imperatriz", img: "https://i.ibb.co/rGB2N8Y0/IMG-5795.png", mat: "A tendência é que você atraia crescimento e fertilidade. Sua capacidade de adaptação costuma garantir soluções rápidas para o seu bem-estar.", ment: "Sua inteligência tende a ser criativa e dedutiva. Você costuma planejar de forma eficaz e verbalizar com clareza o que carrega na alma.", sent: "Você costuma direcionar sua vontade para a alegria e prazer. É uma pessoa afável e sensual que busca melhorar tudo o que possui.", prof: "Cinema, artes cênicas, dança, música, produção, jornalismo, secretariado, vendas, marketing, relações públicas, propaganda, comunicação social, internet, antiquário (marchand), estética (cabeleireiro), ramo têxtil e estilista.", adv: "Mantenha a mesma intensidade e foco. Não mude seus planos no meio do caminho; as situações tendem a estar estruturadas para dar certo.", cons: "Não perca tempo com perfeccionismo. Avance e aproveite todas as chances que a vida lhe oferece." },
             4: { title: "O Imperador", img: "https://i.ibb.co/HfY17FcD/IMG-5796.png", mat: "A tendência é que você seja movido pela estabilidade, pelo poder e pelo controle, mantendo suas conquistas e autoridade.", ment: "Suas ideias tendem a ser lógicas, práticas e objetivas. Você costuma ser convicto, às vezes inflexível. Comunicação direta.", sent: "Pode haver dificuldade em expressar carinho. Seu apego pode se manifestar de forma possessiva por medo de perder o que conquistou.", prof: "Profissões que requerem autoridade sobre alguém, personagem trainee, gerente, funcionário público, delegado, juiz, professor, militar, administração de empresas, contabilidade, economia, matemática, direito, diplomacia, engenharia, física, análise de sistemas, corretagem, vendas, atividades empresariais, política, estiva, lutas em geral (boxe, judô etc.) e mecânica.", adv: "Aprenda a ser mais paciente e a ouvir opiniões alheias. Muito cuidado para que sua autoconfiança não soe como arrogância.", cons: "Mantenha sua autoridade, mas sem se fechar. Continue focado em seus objetivos para atingir o sucesso." },
             5: { title: "O Hierofante", img: "https://i.ibb.co/YTBhJ2mw/IMG-5797.png", mat: "Você tende a pautar suas realizações na legalidade e na moral, organizando a vida através de contratos e responsabilidade.", ment: "Tendência a se apegar a ideias preconcebidas e dogmas. Sua comunicação costuma ser diplomática, moderada e prudente.", sent: "Suas relações tendem a ser baseadas na lealdade e companheirismo, valorizando fortemente a amizade no relacionamento.", prof: "Profissões ligadas à saúde, funcionário público, profissões ligadas à organização, auditor, administrador, magistério, pedagogia, psicologia, literatura, filosofia, letras, linguística, história, jornalismo, arqueologia, serviço social, pediatria, fonoaudiologia, biblioteconomia, odontologia, medicina, arquivologia, direito, sacerdócio, ocultismo e oratória.", adv: "Seja mais flexível. Aprenda a ouvir o outro e aceitar novas possibilidades que fujam da sua estrutura rígida.", cons: "Não permita que terceiros ditem as regras da sua vida. Honre sempre sua palavra, pois a força reside na sua moralidade." },
@@ -660,16 +657,32 @@
             22: { title: "O Louco", img: "https://i.ibb.co/tPYwdb96/IMG-5792.png", mat: "Busca novos caminhos com aversão à rotina, o que pode gerar precipitação e desorganização.", ment: "Mente rápida e alegre, mas sujeita à indecisão. Planos sonhadores que, às vezes, perdem o foco.", sent: "Motivado pelo prazer e aventura, vive o amor com entusiasmo, mas pode confundir impulsos com compromisso.", prof: "Palhaço, publicidade, marketing, jornalismo, aviação, automobilismo, produção de eventos, artes cênicas, pesquisas, invenções e explorações.", adv: "Organize as ideias, seja coerente e evite a dispersão extrema. Assuma mais responsabilidades.", cons: "Use a ousadia para pesquisar horizontes, mas mantenha os pés no chão. Ouça o bom senso." }
         };
 
-        // Funções da Calculadora Numerológica
         function sumStringDigits(str) {
             return str.split('').reduce((acc, digit) => acc + parseInt(digit), 0);
         }
 
+        // Função ajustada para respeitar números mestres durante as somas iniciais (inclusive nos nomes)
         function reduceToSingleDigit(num) {
             if (num === 0) return 0;
+            if ([11, 22, 33, 44, 55, 66, 77, 88, 99].includes(num)) return num;
+            
             let sum = num;
-            while (sum > 9) {
-                sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+            while (sum > 9 && ![11, 22, 33, 44, 55, 66, 77, 88, 99].includes(sum)) {
+                sum = sumStringDigits(sum.toString());
+            }
+            return sum;
+        }
+
+        // Função específica para avaliar as partes da data antes da soma final
+        function reduceDatePart(str) {
+            let num = parseInt(str, 10);
+            // Se o dia ou mês já for mestre (ex: 11, 22), trava a redução.
+            if ([11, 22, 33, 44, 55, 66, 77, 88, 99].includes(num)) return num;
+            
+            let sum = sumStringDigits(str);
+            // Reduz apenas até sobrar um dígito simples OU formar um número mestre no meio do caminho.
+            while (sum > 9 && ![11, 22, 33, 44, 55, 66, 77, 88, 99].includes(sum)) {
+                sum = sumStringDigits(sum.toString());
             }
             return sum;
         }
@@ -698,18 +711,22 @@
 
                 if (wordTotal > 0) {
                     const reduced = reduceToSingleDigit(wordTotal);
+                    const displayNum = (wordTotal > 9 && wordTotal !== reduced) ? `${wordTotal}/${reduced}` : wordTotal;
+                    
                     const block = document.createElement('div');
                     block.className = 'name-block';
-                    block.innerHTML = `<span class="word">${word}</span><span class="number">${wordTotal > 9 ? `${wordTotal}/${reduced}` : wordTotal}</span>`;
+                    block.innerHTML = `<span class="word">${word}</span><span class="number">${displayNum}</span>`;
                     namesRow.appendChild(block);
                 }
             });
         }
 
+        // Função de arcano final ajustada para extrair os secundários de forma exata (como 19/1, 11/2, etc)
         function getArcanaArray(total) {
             if (total === 0) return [];
             let sum = total;
             
+            // Só reduz caso passe das 22 cartas do Tarot (apenas na soma final como solicitado)
             while (sum > 22) {
                 sum = sumStringDigits(sum.toString());
             }
@@ -717,9 +734,16 @@
             const primary = sum;
             const arcanas = [primary];
             
-            if (primary >= 11 && primary <= 22) {
-                const secondary = sumStringDigits(primary.toString());
-                arcanas.push(secondary);
+            // Extrai o arcano secundário se for número duplo (ex: > 9) e não o perde
+            if (primary > 9) {
+                let secondary = sumStringDigits(primary.toString());
+                while (secondary > 9) {
+                    secondary = sumStringDigits(secondary.toString());
+                }
+                
+                if (secondary !== primary && secondary > 0) {
+                    arcanas.push(secondary);
+                }
             }
             
             return arcanas;
@@ -736,11 +760,19 @@
                 return;
             }
 
-            const dateStr = day + month + year;
-            const dateTotalSum = sumStringDigits(dateStr);
+            // NOVA LÓGICA DE DATA: Processa cada parte reduzindo corretamente, mas travando nos mestres
+            const daySum = reduceDatePart(day);
+            const monthSum = reduceDatePart(month);
+            const yearSum = reduceDatePart(year);
+            
+            // Soma os resultados reduzidos dos três blocos
+            const dateTotalSum = daySum + monthSum + yearSum;
+            
+            // Aplica as regras de 22 arcanos para o resultado final e secundários
             const dateArcanas = getArcanaArray(dateTotalSum);
             renderResult('date', dateArcanas);
 
+            // Lógica do nome usando a versão correta de redução
             const words = nameRaw.split(/\s+/).filter(w => w.length > 0);
             let nameTotalSum = 0;
             words.forEach(word => {
@@ -820,7 +852,7 @@
         function initTarotCards() {
             const grid = document.getElementById('cardsGrid');
             grid.innerHTML = '';
-            grid.style.display = 'flex'; // Usando display flex conforme o novo CSS
+            grid.style.display = 'flex'; 
             
             const mainTitle = document.getElementById('mainTitle');
             mainTitle.style.display = 'block';
@@ -831,7 +863,6 @@
             gameHeader.style.display = 'block';
             setTimeout(() => gameHeader.style.opacity = '1', 10);
 
-            // Garante que o botão voltar apareça
             const gameActions = document.getElementById('gameActions');
             gameActions.style.display = 'block';
             setTimeout(() => gameActions.style.opacity = '1', 10);
@@ -870,7 +901,7 @@
             
             document.getElementById('mainTitle').style.opacity = '0';
             document.getElementById('gameModeHeader').style.opacity = '0';
-            document.getElementById('gameActions').style.opacity = '0'; // Esconde botão voltar quando clicar na carta
+            document.getElementById('gameActions').style.opacity = '0'; 
             
             cardElement.classList.add('flipped');
             
@@ -887,7 +918,7 @@
                     document.getElementById('cardsGrid').style.display = 'none';
                     document.getElementById('mainTitle').style.display = 'none';
                     document.getElementById('gameModeHeader').style.display = 'none';
-                    document.getElementById('gameActions').style.display = 'none'; // Some completamente do fluxo
+                    document.getElementById('gameActions').style.display = 'none'; 
                     showTarotResult(arcanaId);
                 }, 500); 
                 
@@ -905,7 +936,6 @@
                 <div class="result-section" style="margin-bottom: 20px;">
                     <div class="section-title">Seu Arcano Sorteado</div>
                     <div class="cards-display" style="margin-bottom: 20px;">
-                        <!-- Reduzido em 20% matematicamente para 112px -->
                         <img src="${data.img}" alt="${data.title}" class="tarot-img primary" style="width: 112px; transform: scale(1.05);">
                     </div>
                     <div class="influence-text">
